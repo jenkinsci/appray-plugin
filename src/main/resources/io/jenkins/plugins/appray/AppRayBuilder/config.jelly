@@ -1,0 +1,21 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:c="/lib/credentials">
+    <f:entry title="${%Url}" field="appRayUrl" >
+        <f:textbox default="${descriptor.defaultAppRayUrl}"/>
+    </f:entry>
+    <f:entry field="credentialsId" title="${%Credentials}">
+        <c:select/>
+    </f:entry>
+    <f:entry title="${%OutputFilePath}" field="outputFilePath" >
+        <f:textbox />
+    </f:entry>
+    <f:entry title="${%WaitTimeout}" field="waitTimeout" >
+        <f:textbox default="${descriptor.defaultWaitTimeout}" />
+    </f:entry>
+    <f:entry title="${%RiskScoreThreshold}" field="riskScoreThreshold" >
+        <f:textbox default="${descriptor.defaultRiskScoreThreshold}" />
+    </f:entry>
+    <f:validateButton
+   title="${%TestConnection}" progress="${%Testing...}"
+   method="testConnection" with="appRayUrl,credentialsId" />
+</j:jelly>

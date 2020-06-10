@@ -1,0 +1,25 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+
+    <j:set var="job" value="${it.job}"/>
+
+    <t:summary icon="/plugin/appray/appray.png">
+        App-Ray scan results for ${job.label} ${job.version} "${job.package}" SHA1:${job.app_hash}:<br/>
+        Status: ${job.status}<br/>
+        <j:if test="${it.url != null}">
+          Result on App-Ray: <a href="${it.url}" target="_blank">${it.url}</a><br/>
+        </j:if>
+        <j:choose>
+          <j:when test="${job.status == 'finished'}">
+            Risk score: ${job.risk_score}<br/>
+          </j:when>
+          <j:when test="${job.status == 'failed'}">
+            Failure reason: ${job.failure_reason}
+          </j:when>
+          <j:otherwise>
+            App-Ray scan wait timeout exceeded, try to check the result on App-Ray.
+          </j:otherwise>
+        </j:choose>
+    </t:summary>
+</j:jelly>

@@ -1,0 +1,15 @@
+/target
+/work
+
+# Editors, IDEs
+.*.sw?
+.sw?
+*~
+.project
+.pydevproject
+.idea
+
+# patch
+*.rej
+*.orig
+

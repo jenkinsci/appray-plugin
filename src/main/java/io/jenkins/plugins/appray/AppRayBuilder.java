@@ -93,17 +93,17 @@ public class AppRayBuilder extends Builder implements SimpleBuildStep {
               run, Collections.<DomainRequirement> emptyList());
 
         if (credential == null) {
-            listener.error("Credential is missing: " + this.credentialsId);
+            listener.error("Credentials are missing: " + this.credentialsId);
             run.setResult(Result.FAILURE);
             return;
         }
         if (appRayUrl == null || appRayUrl.length() == 0) {
-            listener.fatalError("Required App-Ray url is missing");
+            listener.fatalError("Required App-Ray URL is missing");
             run.setResult(Result.FAILURE);
             return;
         }
         if (!application_path.exists()) {
-            listener.error("Application does not exists: " + application_path.getRemote());
+            listener.error("Application does not exist: " + application_path.getRemote());
             run.setResult(Result.FAILURE);
             return;
         }
@@ -190,7 +190,7 @@ public class AppRayBuilder extends Builder implements SimpleBuildStep {
                 listener.error("App-Ray scan finished, application has too high risk score: " + job.risk_score);
                 run.setResult(Result.FAILURE);
             } else {
-                listener.getLogger().println("App-Ray scan finished, application below configure threashold, risk score: " + job.risk_score);
+                listener.getLogger().println("App-Ray scan finished, application is below configured threshold, risk score: " + job.risk_score);
                 run.setResult(Result.SUCCESS);
             }
 
@@ -227,9 +227,9 @@ public class AppRayBuilder extends Builder implements SimpleBuildStep {
                 CredentialsMatchers.withId(credentialsId));
 
             if (credential == null)
-                return FormValidation.error("Missing credential, maybe configured credential has been deleted or moved?");
+                return FormValidation.error("Credentials are missing, please check the configured credentials and make sure they are not deleted or moved.");
             if (appRayUrl.length() == 0)
-                return FormValidation.error("App-Ray url is required");
+                return FormValidation.error("App-Ray URL is required");
 
             try {
                 connector.setup(appRayUrl, credential.getUsername(), Secret.toString(credential.getPassword()), Jenkins.get().proxy);
@@ -238,7 +238,7 @@ public class AppRayBuilder extends Builder implements SimpleBuildStep {
                 String organization = connector.getOrganization();
 
                 if (user.role != User.Role.FULL) {
-                    return FormValidation.error("User must have full-access role: " + credential.getUsername() + " current role: " + user.role);
+                    return FormValidation.error("User must have full-access role: " + credential.getUsername() + " but current role: " + user.role);
                 }
 
                 return FormValidation.ok("Successfully connected. " + user.name + " (" + user.email + ") @ " + organization);
@@ -290,7 +290,7 @@ public class AppRayBuilder extends Builder implements SimpleBuildStep {
             }
 
             if (value.startsWith("${") && value.endsWith("}")) {
-                return FormValidation.warning("Cannot validate expression based credentials");
+                return FormValidation.warning("Cannot validate expression-based credentials");
             }
 
             // use domain name?
@@ -298,7 +298,7 @@ public class AppRayBuilder extends Builder implements SimpleBuildStep {
                                           Collections.<DomainRequirement> emptyList(),
                   CredentialsMatchers.withId(value)
                   ).isEmpty()) {
-              return FormValidation.error("Cannot find currently selected credentials, maybe it has been deleted?");
+              return FormValidation.error("Cannot find currently selected credentials, please make sure they have not been deleted.");
             }
 
             return FormValidation.ok();

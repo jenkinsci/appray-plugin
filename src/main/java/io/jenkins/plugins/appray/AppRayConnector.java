@@ -98,7 +98,7 @@ public class AppRayConnector {
         if (response.getStatus() > 400) {
             JsonNode error = new JsonNode(result);
             
-            throw new AppRayConnectorException("Error(" + response.getStatus() +") submiting application for scanning; " + error.getObject().getString("title") + " " + error.getObject().getString("detail"));
+            throw new AppRayConnectorException("Error(" + response.getStatus() +") submitting application for scanning: " + error.getObject().getString("title") + " " + error.getObject().getString("detail"));
         }
 
         return result.substring(1, result.length() - 2);

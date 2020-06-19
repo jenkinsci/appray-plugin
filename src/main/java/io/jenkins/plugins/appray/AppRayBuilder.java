@@ -17,6 +17,7 @@ import hudson.security.ACL;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.AncestorInPath;
+import org.kohsuke.stapler.verb.POST;
 
 import com.cloudbees.plugins.credentials.CredentialsMatchers;
 import com.cloudbees.plugins.credentials.common.StandardListBoxModel;
@@ -215,9 +216,12 @@ public class AppRayBuilder extends Builder implements SimpleBuildStep {
         public static final Integer defaultWaitTimeout = 10;
         public static final Integer defaultRiskScoreThreshold = 30;
 
+        @POST
         public FormValidation doTestConnection(
             @AncestorInPath Item item,
             @QueryParameter("appRayUrl") String appRayUrl, @QueryParameter("credentialsId") final String credentialsId) throws IOException, ServletException {
+
+            Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
             AppRayConnector connector = new AppRayConnector();
 

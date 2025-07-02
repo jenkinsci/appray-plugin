@@ -28,7 +28,7 @@ import com.cloudbees.plugins.credentials.domains.DomainRequirement;
 import jenkins.model.Jenkins;
 import jenkins.tasks.SimpleBuildStep;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Collections;
